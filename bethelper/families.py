@@ -104,6 +104,8 @@ class Family(BaseFamily):
         self._speed_idx: int = self._trait_dict["start_idx"][1]
         self._knowledge_idx: int = self._trait_dict["start_idx"][2]
         self._sanity_idx: int = self._trait_dict["start_idx"][3]
+        self._current_items = []  # list of items
+        self._current_omens = []
 
     @property
     def color(self):
@@ -143,11 +145,43 @@ class Family(BaseFamily):
     def take_physical_damage(self, trait: str):
         pass
 
+    def add_omen(self, omen: str):
+        self._current_omens.append(omen)
+        print("Current omens: {}".format(self._current_omens))
+
+    def add_item(self, item: str):
+        self._current_items.append(item)
+        print("Current items: {}".format(self._current_items))
+
+    def _use_object(self, obj: str):
+        pass
+
+    def _set_object_as_used(self, obj: str):
+        pass
+
+    def use_omen(self, omen: str):
+        self._use_object(omen)
+        self._set_object_as_used(omen)
+
+    def use_item(self, item: str):
+        self._use_object(item)
+        self._set_object_as_used(item)
+
     def revert_last_step(self):
         """
         Revert last modification to the family character
         """
         pass
+
+    def _set_object_as_unused(self, obj: str):
+        pass
+
+    def end_turn(self):
+        # End this family's turn
+        for i in self._current_items:
+            self._set_object_as_unused(i)
+        for i in self._current_omens:
+            self._set_object_as_unused(i)
 
 
 if __name__ == "__main__":
